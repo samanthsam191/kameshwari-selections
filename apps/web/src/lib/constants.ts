@@ -5,14 +5,14 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://kameshwaris
 export const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/v1";
 
 export const CATEGORIES = [
-  { name: "Silk Sarees", slug: "silk", image: "/categories/silk.jpg" },
-  { name: "Cotton Sarees", slug: "cotton", image: "/categories/cotton.jpg" },
-  { name: "Banarasi Sarees", slug: "banarasi", image: "/categories/banarasi.jpg" },
-  { name: "Kanjivaram Sarees", slug: "kanjivaram", image: "/categories/kanjivaram.jpg" },
-  { name: "Pochampally Sarees", slug: "pochampally", image: "/categories/pochampally.jpg" },
-  { name: "Gadwal Sarees", slug: "gadwal", image: "/categories/gadwal.jpg" },
-  { name: "Linen Sarees", slug: "linen", image: "/categories/linen.jpg" },
-  { name: "Organza Sarees", slug: "organza", image: "/categories/organza.jpg" },
+  { name: "Silk", slug: "silk", image: "", palette: ["#7a1739", "#c99a28"] },
+  { name: "Cotton", slug: "cotton", image: "", palette: ["#166b6d", "#eccb52"] },
+  { name: "Banarasi", slug: "banarasi", image: "", palette: ["#961a43", "#e3b52f"] },
+  { name: "Kanjivaram", slug: "kanjivaram", image: "", palette: ["#5e1430", "#c99a28"] },
+  { name: "Pochampally", slug: "pochampally", image: "", palette: ["#175557", "#d13c6b"] },
+  { name: "Gadwal", slug: "gadwal", image: "", palette: ["#b82453", "#e3b52f"] },
+  { name: "Linen", slug: "linen", image: "", palette: ["#7c6752", "#d6c7b4"] },
+  { name: "Organza", slug: "organza", image: "", palette: ["#d13c6b", "#eccb52"] },
 ] as const;
 
 export const OCCASIONS = [

@@ -17,8 +17,18 @@ export interface Product {
   stock: number;
 }
 
-// Placeholder image URLs (Unsplash-style)
-const IMG = (id: number) => `https://images.unsplash.com/photo-${id}?w=600&h=800&fit=crop`;
+// Real saree / Indian-textile photos (Unsplash). If a host is unreachable
+// the UI falls back to a generated silk-weave via <SmartImage>, so the layout
+// always looks finished. Swap these for your own CDN URLs via the admin later.
+const PHOTOS = [
+  "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=70",
+  "https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=800&q=70",
+  "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?auto=format&fit=crop&w=800&q=70",
+  "https://images.unsplash.com/photo-1610189020382-8a6fd0f4b0c9?auto=format&fit=crop&w=800&q=70",
+  "https://images.unsplash.com/photo-1583391733981-3cc5e2f0c9d1?auto=format&fit=crop&w=800&q=70",
+  "https://images.unsplash.com/photo-1600166898405-da9535204843?auto=format&fit=crop&w=800&q=70",
+];
+const IMG = (i: number) => PHOTOS[i % PHOTOS.length];
 
 export const mockProducts: Product[] = [
   {
