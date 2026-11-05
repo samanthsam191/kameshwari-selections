@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Kameshwari Admin / CRM — Apple HIG-inspired system
+   System font (real SF on Apple devices, no font shipped).
+   ============================================================ */
+
+@theme {
+  /* brand */
+  --color-brand-50: #fdf2f5;
+  --color-brand-100: #fce4ea;
+  --color-brand-200: #f9c9d6;
+  --color-brand-400: #e5658c;
+  --color-brand-500: #d13c6b;
+  --color-brand-600: #b82453;
+  --color-brand-700: #961a43;
+  --color-brand-800: #7a1739;
+  --color-brand-900: #5e1430;
+
+  /* Apple system accents */
+  --color-sysblue: #0a84ff;
+  --color-sysgreen: #30d158;
+  --color-sysorange: #ff9f0a;
+  --color-sysred: #ff3b30;
+  --color-syspurple: #bf5af2;
+  --color-systeal: #40c8e0;
+  --color-sysindigo: #5e5ce6;
+
+  /* gray ramp (Apple) */
+  --color-ink-50: #f5f5f7;
+  --color-ink-100: #ececee;
+  --color-ink-200: #e3e3e6;
+  --color-ink-300: #d2d2d7;
+  --color-ink-400: #a1a1a6;
+  --color-ink-500: #86868b;
+  --color-ink-600: #6e6e73;
+  --color-ink-700: #48484a;
+  --color-ink-800: #2c2c2e;
+  --color-ink-900: #1c1c1e;
+  --color-ink-950: #0b0b0c;
+
+  --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro", system-ui, sans-serif;
+
+  --ease-apple: cubic-bezier(0.32, 0.72, 0, 1);
+  --breakpoint-xs: 475px;
+}
+
+@layer base {
+  :root {
+    --background: var(--color-ink-50);
+    --foreground: var(--color-ink-900);
+    --card: #ffffff;
+    --muted: var(--color-ink-100);
+    --muted-foreground: var(--color-ink-500);
+    --border: var(--color-ink-200);
+    --accent: var(--color-brand-700);
+    --accent-foreground: #ffffff;
+    --ring: var(--color-sysblue);
+    --radius: 14px;
+    --sidebar: #ffffff;
+    --shadow-card: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px -6px rgba(0,0,0,0.10);
+    --shadow-pop: 0 8px 40px -12px rgba(0,0,0,0.22);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --background: #000000;
+      --foreground: #f5f5f7;
+      --card: var(--color-ink-900);
+      --muted: var(--color-ink-800);
+      --muted-foreground: var(--color-ink-400);
+      --border: #2a2a2c;
+      --accent: var(--color-brand-500);
+      --accent-foreground: #ffffff;
+      --sidebar: var(--color-ink-950);
+      --shadow-card: 0 1px 2px rgba(0,0,0,0.4), 0 8px 24px -8px rgba(0,0,0,0.6);
+      --shadow-pop: 0 8px 40px -12px rgba(0,0,0,0.7);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --background: #000000;
+    --foreground: #f5f5f7;
+    --card: var(--color-ink-900);
+    --muted: var(--color-ink-800);
+    --muted-foreground: var(--color-ink-400);
+    --border: #2a2a2c;
+    --accent: var(--color-brand-500);
+    --sidebar: var(--color-ink-950);
+  }
+
+  * { border-color: var(--border); }
+
+  html { -webkit-tap-highlight-color: transparent; }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-ui);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.01em;
+  }
+
+  h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  .material {
+    background: color-mix(in srgb, var(--card) 70%, transparent);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+  }
+  .shadow-card { box-shadow: var(--shadow-card); }
+  .shadow-pop { box-shadow: var(--shadow-pop); }
+  .hairline { border-color: color-mix(in srgb, var(--foreground) 10%, transparent); }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+@layer base {
+  ::-webkit-scrollbar { width: 9px; height: 9px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background-color: var(--color-ink-300); border-radius: 999px; }
+}
