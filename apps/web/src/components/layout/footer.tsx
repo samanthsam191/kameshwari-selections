@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
 import { SITE_NAME, FOOTER_LINKS } from "@/lib/constants";
+import { BuildInfo } from "@/components/layout/build-info";
 
 export function Footer() {
   return (
@@ -94,8 +95,9 @@ export function Footer() {
           <p className="text-xs text-[var(--color-warm-500)]">
             &copy; {new Date().getFullYear()} {SITE_NAME}. All rights reserved.
           </p>
-          <div className="flex items-center gap-4 text-xs text-[var(--color-warm-500)]">
+          <div className="flex flex-col items-center gap-1 text-xs text-[var(--color-warm-500)] sm:flex-row sm:gap-4">
             <span>We accept: UPI | Cards | Net Banking | COD</span>
+            <BuildInfo className="opacity-70" />
           </div>
         </div>
       </div>
