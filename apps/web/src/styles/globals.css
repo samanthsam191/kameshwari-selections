@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+/* === Kameshwari Selections Design Tokens === */
+@theme {
+  /* Brand Colors */
+  --color-primary-50: #fdf2f8;
+  --color-primary-100: #fce7f3;
+  --color-primary-200: #fbcfe8;
+  --color-primary-300: #f9a8d4;
+  --color-primary-400: #f472b6;
+  --color-primary-500: #ec4899;
+  --color-primary-600: #db2777;
+  --color-primary-700: #be185d;
+  --color-primary-800: #9d174d;
+  --color-primary-900: #831843;
+
+  /* Gold accent for luxury feel */
+  --color-gold-50: #fefce8;
+  --color-gold-100: #fef9c3;
+  --color-gold-200: #fef08a;
+  --color-gold-300: #fde047;
+  --color-gold-400: #facc15;
+  --color-gold-500: #eab308;
+  --color-gold-600: #ca8a04;
+  --color-gold-700: #a16207;
+  --color-gold-800: #854d0e;
+  --color-gold-900: #713f12;
+
+  /* Neutral tones */
+  --color-warm-50: #faf9f7;
+  --color-warm-100: #f5f3f0;
+  --color-warm-200: #e8e4de;
+  --color-warm-300: #d6d0c7;
+  --color-warm-400: #b8b0a3;
+  --color-warm-500: #9a8f7f;
+  --color-warm-600: #7d7265;
+  --color-warm-700: #635a4f;
+  --color-warm-800: #4a4239;
+  --color-warm-900: #2d2720;
+
+  /* Spacing scale */
+  --spacing-18: 4.5rem;
+  --spacing-22: 5.5rem;
+
+  /* Font families */
+  --font-heading: "Playfair Display", serif;
+  --font-body: "Inter", "Noto Sans Telugu", "Noto Sans Devanagari", sans-serif;
+
+  /* Breakpoints */
+  --breakpoint-xs: 475px;
+}
+
+/* === Base Styles === */
+@layer base {
+  :root {
+    --background: var(--color-warm-50);
+    --foreground: var(--color-warm-900);
+    --card: #ffffff;
+    --card-foreground: var(--color-warm-900);
+    --popover: #ffffff;
+    --popover-foreground: var(--color-warm-900);
+    --primary: var(--color-primary-700);
+    --primary-foreground: #ffffff;
+    --secondary: var(--color-warm-100);
+    --secondary-foreground: var(--color-warm-800);
+    --muted: var(--color-warm-100);
+    --muted-foreground: var(--color-warm-500);
+    --accent: var(--color-gold-500);
+    --accent-foreground: var(--color-warm-900);
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: var(--color-warm-200);
+    --input: var(--color-warm-200);
+    --ring: var(--color-primary-500);
+    --radius: 0.625rem;
+    --success: #22c55e;
+    --warning: #f59e0b;
+    --info: #3b82f6;
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+/* === Scrollbar Styling === */
+@layer base {
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--color-warm-300);
+    border-radius: 3px;
+  }
+}

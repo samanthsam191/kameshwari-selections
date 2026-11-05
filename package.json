@@ -1,0 +1,27 @@
+{
+  "name": "kameshwari-selections",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "type-check": "turbo type-check",
+    "clean": "turbo clean",
+    "dev:web": "turbo dev --filter=@kameshwari/web",
+    "dev:admin": "turbo dev --filter=@kameshwari/admin",
+    "dev:api": "turbo dev --filter=@kameshwari/api",
+    "build:web": "turbo build --filter=@kameshwari/web",
+    "build:admin": "turbo build --filter=@kameshwari/admin"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.0"
+  },
+  "packageManager": "npm@10.9.9",
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}
