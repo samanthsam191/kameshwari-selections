@@ -60,13 +60,16 @@
   --spacing-22: 5.5rem;
 
   --font-heading: "Fraunces", "Playfair Display", Georgia, serif;
-  --font-body: "Plus Jakarta Sans", "Inter", "Noto Sans Telugu", system-ui, sans-serif;
+  /* Apple system font (real SF on Apple devices via -apple-system — no font file shipped). */
+  --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", "Segoe UI", system-ui, "Plus Jakarta Sans", "Noto Sans Telugu", sans-serif;
+  --font-body: var(--font-ui);
 
   --breakpoint-xs: 475px;
 
   /* --- Motion --- */
   --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-apple: cubic-bezier(0.32, 0.72, 0, 1);
 
   /* --- Animations --- */
   --animate-shimmer: shimmer 2.5s linear infinite;
@@ -216,6 +219,17 @@
     backdrop-filter: blur(16px) saturate(160%);
     -webkit-backdrop-filter: blur(16px) saturate(160%);
   }
+
+  /* Apple-style vibrancy material (stronger, used for bars & sheets) */
+  .material {
+    background: color-mix(in srgb, var(--card) 72%, transparent);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+  }
+
+  /* Hairline separators (HIG 0.5px feel) */
+  .hairline { border-color: color-mix(in srgb, var(--foreground) 12%, transparent); }
+  .divider-h { height: 1px; background: color-mix(in srgb, var(--foreground) 10%, transparent); }
 
   .text-gradient-gold {
     background: linear-gradient(100deg, var(--color-gold-600), var(--color-gold-300), var(--color-gold-600));
