@@ -20,6 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProductCard } from "@/components/product/product-card";
+import { SmartImage } from "@/components/ui/smart-image";
 import { mockProducts, type Product } from "@/lib/mock-data";
 import { cn, formatPrice, calculateDiscount } from "@/lib/utils";
 
@@ -111,18 +112,17 @@ export default function ProductDetailPage({
         {/* Image Gallery */}
         <div className="space-y-4">
           {/* Main image */}
-          <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-gradient-to-br from-[var(--color-primary-50)] to-[var(--color-primary-100)]">
-            <div className="absolute inset-0 flex items-center justify-center text-[var(--color-primary-300)]">
-              <div className="text-center">
-                <Camera className="h-16 w-16 mx-auto mb-3 opacity-40" />
-                <p className="text-sm opacity-60">Product Image {selectedImage + 1}</p>
-              </div>
-            </div>
-            {product.isNew && (
-              <Badge className="absolute top-4 left-4 z-10">NEW</Badge>
-            )}
+          <div className="relative aspect-[3/4] overflow-hidden rounded-3xl shadow-soft">
+            <SmartImage
+              src={product.images[selectedImage]}
+              alt={`${product.name} — view ${selectedImage + 1}`}
+              palette={product.colors.map((c) => c.hex)}
+              label={product.fabric}
+              priority
+            />
+            {product.isNew && <Badge className="absolute left-4 top-4 z-10 shadow">NEW</Badge>}
             {discount > 0 && (
-              <Badge variant="destructive" className="absolute top-4 right-4 z-10">
+              <Badge variant="destructive" className="absolute right-4 top-4 z-10 shadow">
                 {discount}% OFF
               </Badge>
             )}
@@ -130,21 +130,18 @@ export default function ProductDetailPage({
 
           {/* Thumbnails */}
           <div className="flex gap-3">
-            {product.images.map((_, idx) => (
+            {product.images.map((img, idx) => (
               <button
                 key={idx}
                 onClick={() => setSelectedImage(idx)}
                 className={cn(
-                  "relative w-20 h-24 rounded-lg overflow-hidden border-2 transition-all",
-                  "bg-gradient-to-br from-[var(--color-primary-50)] to-[var(--color-primary-100)]",
+                  "relative h-24 w-20 overflow-hidden rounded-xl border-2 transition-all",
                   selectedImage === idx
                     ? "border-[var(--primary)] shadow-md"
                     : "border-transparent opacity-60 hover:opacity-100"
                 )}
               >
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Camera className="h-5 w-5 text-[var(--color-primary-300)] opacity-40" />
-                </div>
+                <SmartImage src={img} alt={`${product.name} thumbnail ${idx + 1}`} palette={product.colors.map((c) => c.hex)} />
               </button>
             ))}
           </div>

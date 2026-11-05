@@ -10,11 +10,11 @@ import {
   ArrowRight,
   Tag,
   Truck,
-  Camera,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { SmartImage } from "@/components/ui/smart-image";
 import { useCartStore } from "@/stores/cart-store";
 import { mockProducts } from "@/lib/mock-data";
 import { cn, formatPrice, calculateDiscount } from "@/lib/utils";
@@ -92,12 +92,18 @@ export default function CartPage() {
             return (
               <div
                 key={`${item.product.id}-${item.selectedColor}`}
-                className="flex gap-4 p-4 border rounded-xl bg-white"
+                className="flex gap-4 rounded-2xl border bg-[var(--card)] p-4 shadow-soft"
               >
-                {/* Image placeholder */}
-                <div className="w-24 h-32 lg:w-32 lg:h-40 rounded-lg bg-gradient-to-br from-[var(--color-primary-50)] to-[var(--color-primary-100)] flex items-center justify-center shrink-0">
-                  <Camera className="h-8 w-8 text-[var(--color-primary-300)] opacity-40" />
-                </div>
+                <Link
+                  href={`/products/${item.product.slug}`}
+                  className="h-32 w-24 shrink-0 overflow-hidden rounded-xl lg:h-40 lg:w-32"
+                >
+                  <SmartImage
+                    src={item.product.images[0]}
+                    alt={item.product.name}
+                    palette={item.product.colors.map((c) => c.hex)}
+                  />
+                </Link>
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
