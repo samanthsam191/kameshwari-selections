@@ -17,18 +17,27 @@ export interface Product {
   stock: number;
 }
 
-// Real saree / Indian-textile photos (Unsplash). If a host is unreachable
-// the UI falls back to a generated silk-weave via <SmartImage>, so the layout
-// always looks finished. Swap these for your own CDN URLs via the admin later.
-const PHOTOS = [
-  "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=70",
-  "https://images.unsplash.com/photo-1583391733956-6c78276477e2?auto=format&fit=crop&w=800&q=70",
-  "https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?auto=format&fit=crop&w=800&q=70",
-  "https://images.unsplash.com/photo-1610189020382-8a6fd0f4b0c9?auto=format&fit=crop&w=800&q=70",
-  "https://images.unsplash.com/photo-1583391733981-3cc5e2f0c9d1?auto=format&fit=crop&w=800&q=70",
-  "https://images.unsplash.com/photo-1600166898405-da9535204843?auto=format&fit=crop&w=800&q=70",
-];
-const IMG = (i: number) => PHOTOS[i % PHOTOS.length];
+// Real saree / Indian-textile photos from Pexels & Unsplash (free license).
+// If a host is unreachable the UI falls back to a generated silk-weave via
+// <SmartImage>, so the layout always looks finished. Swap for CDN URLs later.
+const IMAGES = {
+  // Indian artisan weaving colorful fabric (Pexels, free)
+  artisan1: "https://images.pexels.com/photos/9209327/pexels-photo-9209327.jpeg?auto=compress&w=800&h=1000&fit=crop",
+  // Indian man on traditional handloom (Pexels, free)
+  handloom1: "https://images.pexels.com/photos/14953193/pexels-photo-14953193.jpeg?auto=compress&w=800&h=1000&fit=crop",
+  // Elderly man weaving silk, Varanasi (Pexels, free)
+  varanasi: "https://images.pexels.com/photos/17777833/pexels-photo-17777833.jpeg?auto=compress&w=800&h=1000&fit=crop",
+  // Indian weaver crafting traditional textiles (Pexels, free)
+  artisan2: "https://images.pexels.com/photos/32673642/pexels-photo-32673642.jpeg?auto=compress&w=800&h=1000&fit=crop",
+  // Traditional Indian woman weaving on loom (Pexels, free)
+  womanWeaving: "https://images.pexels.com/photos/8207648/pexels-photo-8207648.jpeg?auto=compress&w=800&h=1000&fit=crop",
+  // Person weaving on loom (Pexels, free)
+  loomWeave: "https://images.pexels.com/photos/17649814/pexels-photo-17649814.jpeg?auto=compress&w=800&h=1000&fit=crop",
+  // Traditional handloom weaving in Bangladesh (Pexels, free)
+  handloom2: "https://images.pexels.com/photos/35195886/pexels-photo-35195886.jpeg?auto=compress&w=800&h=1000&fit=crop",
+  // Woman in red saree with gold jewelry (Unsplash, free)
+  redSaree: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=70",
+};
 
 export const mockProducts: Product[] = [
   {
@@ -42,7 +51,7 @@ export const mockProducts: Product[] = [
     basePrice: 15999,
     salePrice: 12999,
     mrp: 18999,
-    images: [IMG(1583391733956), IMG(1610030469983), IMG(1594736797933)],
+    images: [IMAGES.artisan1, IMAGES.handloom1, IMAGES.varanasi],
     colors: [
       { name: "Maroon", hex: "#800020" },
       { name: "Royal Blue", hex: "#002366" },
@@ -64,7 +73,7 @@ export const mockProducts: Product[] = [
     basePrice: 22999,
     salePrice: null,
     mrp: 22999,
-    images: [IMG(1595777457583), IMG(1610030469983)],
+    images: [IMAGES.varanasi, IMAGES.artisan2],
     colors: [
       { name: "Red", hex: "#DC143C" },
       { name: "Gold", hex: "#DAA520" },
@@ -85,7 +94,7 @@ export const mockProducts: Product[] = [
     basePrice: 3499,
     salePrice: 2799,
     mrp: 4999,
-    images: [IMG(1583391733956), IMG(1594736797933)],
+    images: [IMAGES.handloom2, IMAGES.artisan1],
     colors: [
       { name: "Indigo Blue", hex: "#3F51B5" },
       { name: "Rust Orange", hex: "#BF360C" },
@@ -107,7 +116,7 @@ export const mockProducts: Product[] = [
     basePrice: 6999,
     salePrice: 5499,
     mrp: 8999,
-    images: [IMG(1610030469983), IMG(1583391733956)],
+    images: [IMAGES.womanWeaving, IMAGES.loomWeave],
     colors: [
       { name: "Magenta", hex: "#FF00FF" },
       { name: "Bottle Green", hex: "#006A4E" },
@@ -128,7 +137,7 @@ export const mockProducts: Product[] = [
     basePrice: 2499,
     salePrice: 1999,
     mrp: 3499,
-    images: [IMG(1594736797933), IMG(1595777457583)],
+    images: [IMAGES.loomWeave, IMAGES.artisan2],
     colors: [
       { name: "Beige", hex: "#F5F5DC" },
       { name: "Sage Green", hex: "#9CAF88" },
@@ -151,7 +160,7 @@ export const mockProducts: Product[] = [
     basePrice: 8999,
     salePrice: 6999,
     mrp: 10999,
-    images: [IMG(1583391733956), IMG(1610030469983)],
+    images: [IMAGES.artisan2, IMAGES.varanasi],
     colors: [
       { name: "Lavender", hex: "#E6E6FA" },
       { name: "Peach", hex: "#FFDAB9" },
@@ -172,7 +181,7 @@ export const mockProducts: Product[] = [
     basePrice: 1899,
     salePrice: null,
     mrp: 1899,
-    images: [IMG(1594736797933), IMG(1583391733956)],
+    images: [IMAGES.handloom1, IMAGES.handloom2],
     colors: [
       { name: "Off White", hex: "#FAF0E6" },
       { name: "Earthy Brown", hex: "#8B4513" },
@@ -193,7 +202,7 @@ export const mockProducts: Product[] = [
     basePrice: 35999,
     salePrice: 29999,
     mrp: 42999,
-    images: [IMG(1610030469983), IMG(1595777457583)],
+    images: [IMAGES.redSaree, IMAGES.artisan1],
     colors: [
       { name: "Bridal Red", hex: "#CC0000" },
     ],
@@ -210,7 +219,7 @@ export const mockCollections = [
     name: "Wedding Season",
     slug: "wedding",
     description: "Bridal and wedding guest sarees for the perfect celebration",
-    image: IMG(1583391733956),
+    image: IMAGES.redSaree,
     productCount: 24,
   },
   {
@@ -218,7 +227,7 @@ export const mockCollections = [
     name: "Under ₹2,000",
     slug: "under-2000",
     description: "Beautiful sarees that don't break the bank",
-    image: IMG(1594736797933),
+    image: IMAGES.loomWeave,
     productCount: 18,
   },
   {
@@ -226,7 +235,7 @@ export const mockCollections = [
     name: "Best Sellers",
     slug: "best-sellers",
     description: "Our most loved sarees chosen by customers like you",
-    image: IMG(1595777457583),
+    image: IMAGES.varanasi,
     productCount: 12,
   },
   {
@@ -234,7 +243,7 @@ export const mockCollections = [
     name: "Telangana Heritage",
     slug: "telangana-heritage",
     description: "Pochampally, Gadwal, and Narayanpet — GI-tagged weaves from Telangana",
-    image: IMG(1610030469983),
+    image: IMAGES.handloom2,
     productCount: 15,
   },
 ];
