@@ -5,7 +5,7 @@ import { Reorder, AnimatePresence, motion } from "framer-motion";
 import { UploadCloud, X, Star, GripVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export interface UploadImg { id: string; url: string; name: string; size: number }
+export interface UploadImg { id: string; url: string; name: string; size: number; file: File }
 
 function kb(bytes: number) {
   return bytes < 1024 * 1024 ? `${Math.round(bytes / 1024)} KB` : `${(bytes / 1024 / 1024).toFixed(1)} MB`;
@@ -32,7 +32,7 @@ export function ImageUploader({
     if (!files) return;
     const next = Array.from(files)
       .filter((f) => f.type.startsWith("image/"))
-      .map((f) => ({ id: crypto.randomUUID(), url: URL.createObjectURL(f), name: f.name, size: f.size }));
+      .map((f) => ({ id: crypto.randomUUID(), url: URL.createObjectURL(f), name: f.name, size: f.size, file: f }));
     onChange([...images, ...next].slice(0, max));
   };
 

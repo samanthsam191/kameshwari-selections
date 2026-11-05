@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "@/styles/globals.css";
-import { Shell } from "@/components/shell/shell";
+import { AdminGate } from "@/components/auth/admin-gate";
 
 export const metadata: Metadata = {
   title: "Kameshwari Admin · CRM",
@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="antialiased">
-        <Shell>{children}</Shell>
+        <AdminGate>{children}</AdminGate>
       </body>
     </html>
   );

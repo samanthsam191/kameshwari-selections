@@ -5,11 +5,12 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   LayoutDashboard, ShoppingCart, Package, Users, Settings,
-  Search, Bell, Menu, X, Plus,
+  Search, Bell, Menu, X, Plus, LogOut,
 } from "lucide-react";
 import React from "react";
 import { cn } from "@/lib/utils";
 import { BuildInfo } from "@/components/shell/build-info";
+import { getSupabase, isSupabaseConfigured } from "@/lib/supabase";
 
 const nav = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
@@ -85,10 +86,19 @@ export function Shell({ children }: { children: React.ReactNode }) {
         <div className="mt-auto space-y-2 p-3">
           <div className="flex items-center gap-3 rounded-xl border border-[var(--border)] bg-[var(--muted)]/50 p-3">
             <div className="grid h-9 w-9 place-items-center rounded-full bg-[var(--accent)] text-sm font-semibold text-white">S</div>
-            <div className="min-w-0 leading-tight">
+            <div className="min-w-0 flex-1 leading-tight">
               <div className="truncate text-sm font-medium">Sam</div>
               <div className="truncate text-xs text-[var(--muted-foreground)]">Owner</div>
             </div>
+            {isSupabaseConfigured && (
+              <button
+                onClick={() => getSupabase()?.auth.signOut()}
+                title="Sign out"
+                className="rounded-lg p-1.5 text-[var(--muted-foreground)] hover:bg-[var(--card)] hover:text-[var(--color-sysred)]"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
+            )}
           </div>
           <BuildInfo />
         </div>
