@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import React from "react";
 import { cn } from "@/lib/utils";
+import { BuildInfo } from "@/components/shell/build-info";
 
 const nav = [
   { name: "Dashboard", href: "/", icon: LayoutDashboard },
@@ -81,7 +82,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
       <aside className="sticky top-0 hidden h-screen flex-col border-r border-[var(--border)] bg-[var(--sidebar)] lg:flex">
         <Brand />
         <NavList />
-        <div className="mt-auto p-3">
+        <div className="mt-auto space-y-2 p-3">
           <div className="flex items-center gap-3 rounded-xl border border-[var(--border)] bg-[var(--muted)]/50 p-3">
             <div className="grid h-9 w-9 place-items-center rounded-full bg-[var(--accent)] text-sm font-semibold text-white">S</div>
             <div className="min-w-0 leading-tight">
@@ -89,6 +90,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
               <div className="truncate text-xs text-[var(--muted-foreground)]">Owner</div>
             </div>
           </div>
+          <BuildInfo />
         </div>
       </aside>
 
@@ -113,6 +115,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
                 </button>
               </div>
               <NavList onNavigate={() => setOpen(false)} />
+              <div className="mt-auto p-4"><BuildInfo /></div>
             </motion.aside>
           </>
         )}
