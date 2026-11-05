@@ -2,12 +2,13 @@
 
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Plus, X, Search, Check } from "lucide-react";
+import { Plus, X, Search, Check, Loader2 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { StatusPill } from "@/components/ui/status-pill";
 import { SmartImage } from "@/components/ui/smart-image";
 import { ImageUploader, type UploadImg } from "@/components/products/image-uploader";
 import { products as seed, type AdminProduct } from "@/lib/mock-data";
+import { listProducts, createProduct, isSupabaseConfigured } from "@/lib/products";
 import { formatPrice } from "@/lib/utils";
 
 const empty = { name: "", category: "", fabric: "", price: "", mrp: "", stock: "", sku: "", description: "" };
@@ -19,33 +20,70 @@ export default function ProductsPage() {
   const [form, setForm] = React.useState(empty);
   const [images, setImages] = React.useState<UploadImg[]>([]);
   const [flashId, setFlashId] = React.useState<string | null>(null);
+  const [saving, setSaving] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+
+  // Load live products from Supabase (falls back to the seed when unconfigured).
+  React.useEffect(() => {
+    let active = true;
+    listProducts().then((list) => { if (active && list.length) setItems(list); }).catch(() => {});
+    return () => { active = false; };
+  }, []);
 
   const set = (k: keyof typeof empty, v: string) => setForm((f) => ({ ...f, [k]: v }));
   const rows = items.filter((p) => (p.name + p.sku + p.category).toLowerCase().includes(q.toLowerCase()));
-  const canSave = form.name.trim() && form.price.trim();
+  const canSave = Boolean(form.name.trim() && form.price.trim()) && !saving;
 
-  const reset = () => { setForm(empty); setImages([]); };
+  const reset = () => { setForm(empty); setImages([]); setError(null); };
 
-  const save = () => {
-    const stock = parseInt(form.stock || "0", 10);
-    const id = crypto.randomUUID();
-    const product: AdminProduct = {
-      id,
+  const flash = (id: string) => { setFlashId(id); setTimeout(() => setFlashId(null), 2200); };
+
+  const save = async () => {
+    setError(null);
+    const input = {
       name: form.name.trim(),
-      sku: form.sku.trim() || `KS-NEW-${items.length + 1}`,
-      category: form.category.trim() || "Uncategorised",
-      fabric: form.fabric.trim() || "—",
+      category: form.category.trim(),
+      fabric: form.fabric.trim(),
       price: parseInt(form.price || "0", 10),
       mrp: parseInt(form.mrp || form.price || "0", 10),
-      stock,
-      status: stock > 0 ? "active" : "out_of_stock",
+      stock: parseInt(form.stock || "0", 10),
+      sku: form.sku.trim(),
+      description: form.description.trim(),
+    };
+
+    if (isSupabaseConfigured) {
+      setSaving(true);
+      try {
+        const product = await createProduct(input, images.map((i) => i.file));
+        setItems((prev) => [product, ...prev]);
+        flash(product.id);
+        reset();
+        setOpen(false);
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "Something went wrong");
+      } finally {
+        setSaving(false);
+      }
+      return;
+    }
+
+    // Demo mode (no backend): keep it in-memory using the local preview URL.
+    const id = crypto.randomUUID();
+    setItems((prev) => [{
+      id,
+      name: input.name,
+      sku: input.sku || `KS-NEW-${items.length + 1}`,
+      category: input.category || "Uncategorised",
+      fabric: input.fabric || "—",
+      price: input.price,
+      mrp: input.mrp,
+      stock: input.stock,
+      status: input.stock > 0 ? "active" : "out_of_stock",
       image: images[0]?.url || "",
       palette: ["#961a43", "#c99a28"],
       sold: 0,
-    };
-    setItems((prev) => [product, ...prev]);
-    setFlashId(id);
-    setTimeout(() => setFlashId(null), 2200);
+    }, ...prev]);
+    flash(id);
     reset();
     setOpen(false);
   };
@@ -149,15 +187,21 @@ export default function ProductsPage() {
                 <Field label="Description"><textarea value={form.description} onChange={(e) => set("description", e.target.value)} rows={3} className={inputCls} placeholder="Handwoven pure silk…" /></Field>
               </div>
 
-              <div className="flex gap-2 border-t border-[var(--border)] p-4">
-                <button onClick={() => setOpen(false)} className="flex-1 rounded-[10px] border border-[var(--border)] py-2.5 text-sm font-semibold hover:bg-[var(--muted)]">Cancel</button>
-                <button
-                  onClick={save}
-                  disabled={!canSave}
-                  className="flex flex-1 items-center justify-center gap-1.5 rounded-[10px] bg-[var(--accent)] py-2.5 text-sm font-semibold text-white transition active:scale-[0.98] disabled:opacity-40"
-                >
-                  <Check className="h-4 w-4" /> Save product
-                </button>
+              <div className="border-t border-[var(--border)] p-4">
+                {error && <p className="mb-2 rounded-lg bg-[var(--color-sysred)]/10 px-3 py-2 text-xs text-[var(--color-sysred)]">{error}</p>}
+                {!isSupabaseConfigured && (
+                  <p className="mb-2 text-[11px] text-[var(--muted-foreground)]">Demo mode — connect Supabase to persist products & upload images for real.</p>
+                )}
+                <div className="flex gap-2">
+                  <button onClick={() => setOpen(false)} disabled={saving} className="flex-1 rounded-[10px] border border-[var(--border)] py-2.5 text-sm font-semibold hover:bg-[var(--muted)] disabled:opacity-50">Cancel</button>
+                  <button
+                    onClick={save}
+                    disabled={!canSave}
+                    className="flex flex-1 items-center justify-center gap-1.5 rounded-[10px] bg-[var(--accent)] py-2.5 text-sm font-semibold text-white transition active:scale-[0.98] disabled:opacity-40"
+                  >
+                    {saving ? <><Loader2 className="h-4 w-4 animate-spin" /> Saving…</> : <><Check className="h-4 w-4" /> Save product</>}
+                  </button>
+                </div>
               </div>
             </motion.div>
           </>

@@ -7,7 +7,11 @@ import { Hero } from "@/components/home/hero";
 import { ProductRail } from "@/components/home/product-rail";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/motion/reveal";
 import { CATEGORIES, OCCASIONS } from "@/lib/constants";
-import { mockProducts, mockCollections, mockTestimonials } from "@/lib/mock-data";
+import { mockCollections, mockTestimonials } from "@/lib/mock-data";
+import { getStorefrontProducts } from "@/lib/products";
+
+// Always fetch fresh so newly-added products appear immediately.
+export const revalidate = 0;
 
 const features = [
   { icon: Sparkles, title: "Virtual Try-On", desc: "See any saree on you before buying" },
@@ -22,9 +26,10 @@ const trust = [
   { icon: RefreshCw, label: "7-day easy returns" },
 ];
 
-export default function HomePage() {
-  const newArrivals = mockProducts.filter((p) => p.isNew);
-  const bestSellers = [...mockProducts].sort((a, b) => b.rating - a.rating).slice(0, 4);
+export default async function HomePage() {
+  const products = await getStorefrontProducts();
+  const newArrivals = products.filter((p) => p.isNew).slice(0, 8);
+  const bestSellers = [...products].sort((a, b) => b.rating - a.rating).slice(0, 4);
 
   return (
     <div>
